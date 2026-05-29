@@ -40,7 +40,7 @@ export default function BirbankApp() {
 
   const handleLogin = () => {
     console.log("[Birbank] Login button clicked")
-    setCurrentScreen("registration")
+    // Login only logs, doesn't navigate
   }
 
   const handleRegistration = () => {
@@ -241,12 +241,11 @@ export default function BirbankApp() {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center">
         <div className="w-full max-w-[390px]">
-          {/* Header */}
+          {/* Header - only back button and home icon, no title */}
           <div className="flex items-center justify-between p-4">
             <button onClick={() => setCurrentScreen("welcome")} className="text-[#e30613] text-3xl font-light">
               ‹
             </button>
-            <span className="text-gray-400 text-sm">Qeydiyyat</span>
             <div className="w-8 h-8 flex items-center justify-center">
               <svg className="w-6 h-6 text-[#e30613]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -269,7 +268,7 @@ export default function BirbankApp() {
                 </svg>
                 <input
                   type="tel"
-                  placeholder="Telefon nömrəsi"
+                  placeholder="0102332112"
                   value={phoneNumber}
                   onChange={(e) => {
                     setPhoneNumber(e.target.value)
@@ -288,7 +287,7 @@ export default function BirbankApp() {
                 </svg>
                 <input
                   type="text"
-                  placeholder="Kart nömrəsi"
+                  placeholder="123323321"
                   value={cardNumber}
                   onChange={(e) => {
                     setCardNumber(e.target.value)
